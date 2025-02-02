@@ -1,7 +1,7 @@
 import { asyncHandler } from "../libs/asyncHandler.js";
 import { ApiError } from "../libs/ApiError.js";
 import { User } from "../models/user.model.js";
-import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import { uploadOnCloudinary } from "../utils/cloundinary.js";
 import { ApiResponse } from "../libs/ApiResponse.js";
 import jwt from "jsonwebtoken";
 import { sendVerificationEmail } from "../utils/sendEmail.js"; // Correct function import
@@ -92,6 +92,7 @@ const registerUser = asyncHandler(async (req, res) => {
         )
       );
   } catch (error) {
+    console.error(error);
     throw new ApiError(400, "Something went wrong during registration");
   }
 });
