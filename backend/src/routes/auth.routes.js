@@ -5,23 +5,33 @@ import {
   registerUser,
   verifyEmail,
   refreshAccessToken,
+  requestPasswordReset,
+  resetPassword,
 } from "../controllers/auth.controller.js";
-import { upload } from "../middlewares/multer.middleware.js";
+
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
-const router = express.Router();
+const authRoutes = express.Router();
 
-router.route("/register").post(
-  upload.fields([
-    { name: "avatar", maxCount: 1 },
-  ]),
-  registerUser
-);
+// Register route
+authRoutes.route("/register").post(registerUser);
 
-router.route("/verify-email/:verificationToken").get(verifyEmail);
+// Verify email route
+authRoutes.route("/verify-email/:verificationToken").post(verifyEmail);
 
-router.route("/login").post(loginUser);
-router.route("/logout").post(verifyJWT, logoutUser);
-router.route("/refresh-token").post(refreshAccessToken);
+// Login route
+authRoutes.route("/login").post(loginUser);
 
-export default router;
+// Logout route, protected by JWT verification
+authRoutes.route("/logout").post(verifyJWT, logoutUser);
+
+// Refresh access token route
+authRoutes.route("/refresh-token").post(refreshAccessToken);
+
+// Request password reset (Send email with token)
+authRoutes.route("/request-password-reset").post(verifyJWT,requestPasswordReset);
+
+// Reset password using token
+authRoutes.route("/reset-password").patch(verifyJWT,resetPassword);
+
+export { authRoutes };

@@ -1,4 +1,4 @@
-import express from 'express';
+import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
@@ -19,15 +19,13 @@ app.use(express.static("public"));
 app.use(cookieParser());
 
 // routes
-import authRoutes from "./routes/auth.routes.js";
+import { authRoutes } from "./routes/auth.routes.js";
+import { userRoutes } from "./routes/user.routes.js";
+import { urlRoutes } from "./routes/url.routes.js";
 
 // route declarations
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/url", urlRoutes);
 
-
-
-
-
-export {app};
-
-
+export { app };
